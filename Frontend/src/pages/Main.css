@@ -5,15 +5,25 @@
     min-height: calc(100vh - 64px);
 
     .action {
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         align-items: center;
         justify-content: center;
     }
 
     .info {
-        display: flex;
+        display: grid;
+        grid-template-rows: 1fr 1fr;
         align-items: center;
         justify-content: center;
-        flex-direction: column; 
+    }
+}
+
+@media screen and (max-width: 764px) {
+    
+    .main {
+        .action {
+            grid-template-columns: 1fr;
+        }
     }
 }

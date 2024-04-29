@@ -1,5 +1,4 @@
 .user-auth{
-    width: 50%;
     height: 100%;
     display: flex;
     align-items: center;
@@ -8,6 +7,7 @@
     gap: 1rem; 
     background-color: grey;
     margin-bottom: 2rem;
+    padding: 1rem;
     .auth-btns {
         display: flex;
         justify-content: center;

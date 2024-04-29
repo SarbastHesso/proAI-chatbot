@@ -1,13 +1,13 @@
 import './Auth.css'
-import { Link } from 'react-router-dom'
+import CustomLink from './CustomLink'
 
 const Auth = () => {
   return (
     <section className="user-auth">
     <p>Start here, To save history</p>
     <div className="auth-btns">
-      <Link to='/login'>Log in</Link>
-      <Link to='/signup'>Sign up</Link>
+    <CustomLink to='/login' bgColor='#0764b8' txt='Login'/>
+    <CustomLink to='/signup' bgColor='#0764b8' txt='Sign Up'/>
     </div>
   </section>
   )
