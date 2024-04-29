@@ -1,27 +1,19 @@
+import Auth from "../components/Auth";
+import Footer from "../components/Footer";
+import Greeting from "../components/Greeting";
+import Nav from "../components/Nav";
 import "./Main.css";
+import { Link } from "react-router-dom";
 const Main = () => {
   return (
     <main className="main">
       <div className="action">
-        <section className="greeting">
-          <h1>Welcome to Pro AI</h1>
-          <h1>Chatbot</h1>
-          <p>Start as a guest</p>
-          <button>Go</button>
-        </section>
-        <section className="user-auth">
-          <p>Start here, To save history</p>
-          <div className="auth-btns">
-            <button>Log in</button>
-            <button>Sign up</button>
-          </div>
-        </section>
+        <Greeting />
+        <Auth />
       </div>
       <div className="info">
-        <nav className="nav">
-            
-        </nav>
-        <footer className="footer">Footer</footer>
+        <Nav />
+        <Footer />
       </div>
     </main>
   );

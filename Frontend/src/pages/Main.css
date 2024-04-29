@@ -1,42 +1,19 @@
 .main {
     display: grid;
-    padding: 2rem;
-    min-height: calc(100vh-64px);
+    grid-template-rows: 1fr auto;
+    padding: 2rem 2rem 0 2rem;
+    min-height: calc(100vh - 64px);
+
     .action {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        justify-content: center;
+        display: flex;
         align-items: center;
-        section {
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            border: 2px solid #000000;
-        }
-        .greeting {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .user-auth{
-            display: flex;
-            flex-direction: column;
-            text-align: center;
-            gap: 1rem;
-            .auth-btns {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 1rem;
-            }
-        }
+        justify-content: center;
     }
+
     .info {
-        display: grid;
-        nav, footer {
-                        border: 2px solid #000000;
-                        display: flex;
-                        justify-content: center;
-        }
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column; 
     }
 }
