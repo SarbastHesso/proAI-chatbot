@@ -1,0 +1,59 @@
+.signup {
+    height: calc(100vh - 64px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .form-container {
+        min-width: 600px;
+        background-color: lightgray;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 2rem;
+
+        h2 {
+            text-align: center;
+        }
+
+        form {
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 1rem;
+
+                label {
+                   font-size: 1.2rem;
+                   margin-bottom: 0.25rem;
+                }
+
+                input {
+                    padding: 0.5rem;
+                    border: none;
+                    outline: none;
+                }
+            }
+
+            .checkbox-group {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .error-msg {
+                color: red;
+                margin-bottom: 1rem;
+            }
+
+            .button-container {
+                display: flex;
+                button {
+                    margin: 0.5rem auto;
+                    padding: 0.5rem 1rem;
+                    font-size: 1.2rem;
+                }
+            }
+        }
+    }
+}
