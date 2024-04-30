@@ -5,19 +5,22 @@ import Chatbot from "./pages/Chatbot";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Header from './components/Header';
+import { ContextProvider } from './Context';
 
 function App() {
 
   return (
     <Router>
       <div className="container">
-        <Header />
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/chatbot" element={<Chatbot />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-        </Routes>
+        <ContextProvider>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/chatbot" element={<Chatbot />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </ContextProvider>
       </div>
     </Router>
   );
