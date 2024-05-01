@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import Greeting from "../components/Greeting";
 import Nav from "../components/Nav";
 import "./Main.css";
-import { Link } from "react-router-dom";
+
 const Main = () => {
   return (
     <main className="main">

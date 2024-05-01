@@ -1,0 +1,22 @@
+.custom-btn {
+    min-width: 125px;
+    border: none;
+    outline: none;
+    border-radius: .2rem;
+    padding: .5rem 1rem;
+    text-align: center;
+    background-color: #000000;
+    color: #ffffff;
+    cursor: pointer;
+    opacity: .9;
+    transition: .2s ease;
+    font-size: 1.2rem;
+    margin: 1rem 0;
+    opacity: .8;
+    transition: .2s ease;
+}
+
+.custom-btn:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}

@@ -7,11 +7,34 @@
         text-align: center;
         margin: 1rem 0;
         padding: 0.5rem 1rem;
-        border-radius: 0.3rem;
+        border-radius: 0.2rem;
         opacity: 0.8;
+        transition: .2s ease;
+        cursor: pointer;
     }
 
     a:hover {
+        opacity: 1; 
+        transform: scale(1.1);
+    }
+
+    button {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        color: whitesmoke;
+        min-width: 100px;
+        margin: 1rem 0;
+        padding: 0.5rem 1rem;
+        border: none;
+        outline: none;
+        border-radius: 0.2rem;
+        opacity: 0.8;
+        transition: .2s ease;
+        cursor: pointer;
+    }
+
+    button:hover {
         opacity: 1; 
         transform: scale(1.1);
     }

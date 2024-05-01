@@ -1,52 +1,59 @@
 .login {
-    height: calc(100vh - 64px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .form-container {
-        min-width: 600px;
-        background-color: lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 66px);
+  .login-form {
+        min-width: 500px;
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-        padding: 2rem;
-
+        justify-content: center;
+        background-color: #f5f5f5;
+        border-radius: .2rem;
+        padding: 1rem;
         h2 {
+            margin-bottom: 1.5rem;
             text-align: center;
         }
-
-        form {
-            .form-group {
-                display: flex;
-                flex-direction: column;
-                margin-bottom: 1rem;
-
-                label {
-                   font-size: 1.2rem;
-                   margin-bottom: 0.25rem;
-                }
-
-                input {
-                    padding: 0.5rem;
-                    border: none;
-                    outline: none;
-                }
+        .form-group {
+            margin-bottom: 1rem;
+            label {
+                width: 100%;
+                display: block;
+                margin-bottom: .5rem;
             }
-
-            .error-msg {
-                color: red;
-                margin-bottom: 1rem;
+            input {
+                width: 100%;
+                padding: .5rem;
+                border-radius: .2rem;
+                border: 1px solid #ccc;
+                font-size: 1rem;
             }
-
-            .button-container {
-                display: flex;
-                button {
-                    margin: 0.5rem auto;
-                    padding: 0.5rem 1rem;
-                    font-size: 1.2rem;
-                }
+        }
+        .error-message {
+            color: red;
+        }
+        .separator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            div {
+                width: 44%;
+                border-bottom: 2px solid #000000;
             }
+        }
+        .btn-cotainer {
+            display: flex;
+            justify-content: center;
+        }
+        .signup-link-container {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
     }
 }

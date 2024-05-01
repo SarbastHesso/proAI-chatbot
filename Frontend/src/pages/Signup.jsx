@@ -1,49 +1,114 @@
-import { useContext, useState } from 'react'
-import './Signup.css'
-import { Context } from '../Context'
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import CustomBtn from "../components/CustomBtn";
+import "./Signup.css";
+import { useContext } from "react";
+import { Context } from "../Context";
+
 const Signup = () => {
-  const {register, error} = useContext(Context);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    register();
-  }
+  const { register, signupError} = useContext(Context);
+
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confPassword, setConfPassword] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
+
+  const toggleTerms = () => {
+    setTermsAccepted(!termsAccepted); 
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    register(email, password);
+    setEmail("");
+    setPassword("");
+  };
+
   return (
-    <div className='signup'>
-      <div className="form-container">
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Username</label>
-          <input type="text" />
+    <div className="signup">
+      <div className="signup-form">
+        <h2>Sign Up</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="userName"
+              name="userName"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="password"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="conf-password">Confirm password</label>
+            <input
+              type="password"
+              id="confPassword"
+              name="confPassword"
+              value={confPassword}
+              onChange={(e) => setConfPassword(e.target.value)}
+              autoComplete="password"
+            />
+          </div>
+          <div className="checkbox-group">
+            <input
+              type="checkbox"
+              id="termsCheckbox"
+              name="termsCheckbox"
+              checked={termsAccepted}
+              onChange={toggleTerms}
+            />
+            <label htmlFor="termsCheckbox">I accept terms and conditions</label>
+          </div>
+          {signupError && <div className="error-message">{signupError}</div>}
+          <div className="btn-cotainer">
+            <CustomBtn txt="Sign up" bgColor="#0764b8" />
+          </div>
+        </form>
+        <div className="login-link-container">
+          <p>Already have an account?</p>
+          <Link to="/login" className="login-link">
+            Login
+          </Link>
         </div>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input type="email" id='email' name='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
+        <div className="separator">
+          <div></div>
+          <p>OR</p>
+          <div></div>
         </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input type="password" id='password' name='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
+        <div className="btn-cotainer">
+          <CustomBtn
+            txt="Continue with Google"
+            color="#095b56"
+            bgColor="#000000"
+          />
         </div>
-        <div className="form-group">
-          <label htmlFor="conf-password">Confirm password</label>
-          <input type="password" />
-        </div>
-        <div className="checkbox-group">
-          <input type="checkbox" name="checkbox" id="checkbox" />
-          <label htmlFor="checkbox">I accepts terms and conditions</label>
-        </div>
-        <div className="error-msg">
-          <p>{error}</p>
-        </div>
-        <div className="button-container">
-          <button>Sign up</button>
-        </div>
-      </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Signup
+export default Signup;
