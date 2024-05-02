@@ -17,15 +17,67 @@ const Chatbot = () => {
         </div>
       </div>
       <div className="action">
-        <div className="info">
+        <div className="chatbot-header">
+          <h2>ProAI Chatbot</h2>
           {isLoggedIn && <h3 className="weclome-msg">{welcomeMsg}</h3>}
-          <h2>How can I help you?</h2>
         </div>
-        <div className="response">The response from ProAI Chat</div>
-        <form>
-          <input type="text" />
-          <button>go</button>
-        </form>
+        <div className="chatbot-main">
+          <div className="chat-conversation">
+            <h2>How can I help you?</h2>
+            <div className="conversation-item">
+              <p className="question">my question</p>
+              <p className="answer">The answer from ProAI Chat</p>
+            </div>
+            <div className="conversation-item">
+              <p className="question">my question</p>
+              <p className="answer">The answer from ProAI Chat</p>
+            </div>
+            <div className="conversation-item">
+              <p className="question">my question</p>
+              <p className="answer">The answer from ProAI Chat</p>
+            </div>
+            <div className="conversation-item">
+              <p className="question">my question</p>
+              <p className="answer">The answer from ProAI Chat</p>
+            </div>
+            <div className="conversation-item">
+              <p className="question">my question</p>
+              <p className="answer">The answer from ProAI Chat</p>
+            </div>
+            <div className="conversation-item">
+              <p className="question">my question</p>
+              <p className="answer">The answer from ProAI Chat</p>
+            </div>
+            <div className="conversation-item">
+              <p className="question">my question</p>
+              <p className="answer">The answer from ProAI Chat</p>
+            </div>
+            <div className="conversation-item">
+              <p className="question">my question</p>
+              <p className="answer">The answer from ProAI Chat</p>
+            </div>
+            <div className="conversation-item">
+              <p className="question">my question</p>
+              <p className="answer">The answer from ProAI Chat</p>
+            </div>
+            <div className="conversation-item">
+              <p className="question">my question</p>
+              <p className="answer">The answer from ProAI Chat</p>
+            </div>
+            <div className="conversation-item">
+              <p className="question">my question</p>
+              <p className="answer">The answer from ProAI Chat</p>
+            </div>
+            <div className="conversation-item">
+              <p className="question">my question</p>
+              <p className="answer">The answer from ProAI Chat</p>
+            </div>
+          </div>
+          <form>
+            <input type="text" />
+            <button>go</button>
+          </form>
+        </div>
       </div>
     </div>
   );
