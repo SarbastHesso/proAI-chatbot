@@ -1,4 +1,4 @@
-import { useContext, useState} from "react";
+import { useContext, useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Context } from "../Context";
 import CustomBtn from "../components/CustomBtn";
@@ -11,11 +11,15 @@ const Chatbot = () => {
   const [userMessage, setUserMessage] = useState("");
   const [answer, setAnswer] = useState("");
   const [typing, setTyping] = useState(false);
-  const [conversation, setConversation] = useState([
-    {message: "The first message", answer: "The first answer"},
-    {message: "The second message", answer: "The second answer"},
-    {message: "The third message", answer: "The third answer"},
-  ]);
+
+  const [conversation, setConversation] = useState([]);
+
+  const lastConversationItemRef = useRef(null);
+  const currentConversationItemRef = useRef(null);
+
+
+  const [saveChatHistory, setSaveChatHistory] = useState(true);
+  const [chatHistory, setChatHistory] = useState([]);
 
   const simulateTypingResponse = (fullResponse) => {
     setAnswer("");
@@ -51,16 +55,21 @@ const Chatbot = () => {
           message,
         });
         simulateTypingResponse(res.data.response);
-        // setAnswer(res.data.response)
         setUserMessage(message);
+        if (saveChatHistory){
+          localStorage.setItem(
+            "conversation",
+            JSON.stringify([
+              ...conversation,
+              { message: message, answer: res.data.response },
+            ])
+          );
+        }
         setMessage("");
-        console.log(conversation);
-        console.log(message, userMessage);
 
-        if (userMessage, answer){
-          const newItem = { userMessage, answer };
-          setConversation([...conversation, newItem])
-          console.log(message, userMessage);
+        if ((userMessage, answer)) {
+          const newItem = { message:userMessage, answer:answer };
+          setConversation([...conversation, newItem]);
         }
       } catch (error) {
         console.log(error);
@@ -69,25 +78,56 @@ const Chatbot = () => {
     }
   }
 
+  const newChatClick = () => {
+    if (saveChatHistory) {
+      setChatHistory([conversation, ...chatHistory]);
+      localStorage.setItem(
+        "chatHistory",
+        JSON.stringify([
+          ...chatHistory,
+          conversation,
+        ])
+      );
+      setConversation([]);
+    }
+    localStorage.removeItem("conversation");
+    // setConversation([]);
+  }
+
+  useEffect(() => {
+    if (typing){
+      currentConversationItemRef.current.scrollIntoView({ behavior: "smooth" });
+    } else {
+      if (lastConversationItemRef.current) {
+        lastConversationItemRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [conversation, typing]); 
+
+  useEffect(() => {
+    const conversationFromLocalStorage = localStorage.getItem("conversation");
+    if (conversationFromLocalStorage) {
+      setConversation(JSON.parse(conversationFromLocalStorage));
+    }
+    const chatHistoryFromLocalStorage = localStorage.getItem("chatHistory");
+    if (chatHistoryFromLocalStorage) {
+      setChatHistory(JSON.parse(chatHistoryFromLocalStorage));
+    }
+  }, []);
+
+
   return (
     <div className="chatbot">
       <div className="chat-history-cards">
         <div className="btn-container">
-          <CustomBtn txt="New Chat" bgColor="#cfcfcf" />
+          <CustomBtn txt="New Chat" bgColor="#cfcfcf" onClick={newChatClick}/>
         </div>
         <div className="cards">
-          <div className="card">Card-1</div>
-          <div className="card">Card-2</div>
-          <div className="card">Card-3</div>
-          <div className="card">Card-3</div>
-          <div className="card">Card-3</div>
-          <div className="card">Card-3</div>
-          <div className="card">Card-3</div>
-          <div className="card">Card-3</div>
-          <div className="card">Card-3</div>
-          <div className="card">Card-3</div>
-          <div className="card">Card-3</div>
-          <div className="card">Card-3</div>
+          {
+            chatHistory.map((item, index) => (
+              <div className="card" key={index}>{item[0].message}</div>
+            ))
+          }
         </div>
       </div>
       <div className="action">
@@ -100,7 +140,9 @@ const Chatbot = () => {
             <h2>How can I help you?</h2>
 
             {conversation.map((item, index) => (
-              <div className="conversation-item" key={index}>
+              <div className="conversation-item" 
+              key={index} 
+              ref={index === conversation.length ? lastConversationItemRef : null}>
                 <div className="question-container">
                   <span>you</span>
                   <p className="question">{item.message}</p>
@@ -112,17 +154,18 @@ const Chatbot = () => {
               </div>
             ))}
 
-            <div className="conversation-item">
-              <div className="question-container">
-                <span>you</span>
-                <p className="question">{userMessage}</p>
+            {answer && (
+              <div className="conversation-item" ref={currentConversationItemRef}>
+                <div className="question-container">
+                  <span>you</span>
+                  <p className="question">{userMessage}</p>
+                </div>
+                <div className="answer-container">
+                  <span>chatbot</span>
+                  <p className="answer">{answer}</p>
+                </div>
               </div>
-              <div className="answer-container">
-                <span>chatbot</span>
-                <p className="answer">{answer}</p>
-              </div>
-            </div>
-
+            )}
           </div>
         </div>
         <div className="form-container">
