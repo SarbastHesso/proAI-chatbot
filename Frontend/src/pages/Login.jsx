@@ -12,16 +12,20 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login(email, password);
-    setEmail("");
-    setPassword("");
+    try {
+      login(email, password);
+      setEmail("");
+      setPassword("");
+    } catch (error) {
+      console.error("Login error:", error.message);
+    }
   };
 
   return (
     <div className="login">
       <div className="login-form">
         <h2>Log in</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input
@@ -55,14 +59,14 @@ const Login = () => {
             Sign up
           </Link>
         </div>
-        <div className="separator">
+        {/* <div className="separator">
           <div></div>
           <p>OR</p>
           <div></div>
         </div>
         <div className="btn-cotainer">
           <CustomBtn txt="Continue with Google" bgColor="#000000" />
-        </div>
+        </div> */}
       </div>
     </div>
   );

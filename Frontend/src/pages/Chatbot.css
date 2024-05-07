@@ -42,13 +42,25 @@
             background-color: #ededed;
             align-self: self-start;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            gap: .5rem;
             gap: .5rem;
             padding: 1rem;
             position: sticky;
             left: 1rem;
             right: 1rem;
             top: 0;
+            .user-name-check {
+                padding: .5rem;
+                display: flex;
+                align-items: center;
+                gap: 2rem;
+                .checkbox-group {
+                    display: flex;
+                    align-items: center;
+                    gap: .5rem;
+                }
+            }
         }
         .chatbot-main {
             width: 100%;

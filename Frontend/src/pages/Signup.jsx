@@ -18,18 +18,31 @@ const Signup = () => {
     setTermsAccepted(!termsAccepted); 
   };
 
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    register(email, password);
-    setEmail("");
-    setPassword("");
+
+    // Perform registration
+    register(userName, email, password, confPassword, termsAccepted)
+      .then(() => {
+        // Clear form fields on successful registration
+        setUserName("");
+        setEmail("");
+        setPassword("");
+        setConfPassword("");
+      })
+      .catch((error) => {
+        // Error handling is already done in the register function
+        console.error("Registration error:", error);
+      });
   };
 
   return (
     <div className="signup">
       <div className="signup-form">
         <h2>Sign Up</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <div className="form-group">
             <label htmlFor="username">Username</label>
             <input
@@ -94,7 +107,7 @@ const Signup = () => {
             Login
           </Link>
         </div>
-        <div className="separator">
+        {/* <div className="separator">
           <div></div>
           <p>OR</p>
           <div></div>
@@ -105,7 +118,7 @@ const Signup = () => {
             color="#095b56"
             bgColor="#000000"
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

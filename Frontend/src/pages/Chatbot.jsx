@@ -8,31 +8,25 @@ const Chatbot = () => {
   const { isLoggedIn, welcomeMsg } = useContext(Context);
 
   const [message, setMessage] = useState("");
-  const [userMessage, setUserMessage] = useState("");
   const [answer, setAnswer] = useState("");
   const [typing, setTyping] = useState(false);
 
   const [conversation, setConversation] = useState([]);
 
   const lastConversationItemRef = useRef(null);
-  const currentConversationItemRef = useRef(null);
 
 
   const [saveChatHistory, setSaveChatHistory] = useState(true);
   const [chatHistory, setChatHistory] = useState([]);
 
+    const toggleSaveChatHistory = () => {
+      setSaveChatHistory(!saveChatHistory);
+    };
+
   const simulateTypingResponse = (fullResponse) => {
     setAnswer("");
     setTyping(true);
     let index = 0;
-
-    if (fullResponse.length > 0) {
-      setAnswer(fullResponse.charAt(0));
-      index = 1; // Initialize index at 1 after setting first char
-    } else {
-      setTyping(false);
-      return;
-    }
 
     const intervalId = setInterval(() => {
       if (index < fullResponse.length) {
@@ -40,132 +34,155 @@ const Chatbot = () => {
           (currentResponse) => currentResponse + fullResponse.charAt(index)
         );
         index++;
-      } else { 
+      } else {
         clearInterval(intervalId);
         setTyping(false);
       }
     }, 25);
   };
 
+
   const submitHandle = async (e) => {
     e.preventDefault();
-    if (message !== ""){
+    if (message !== "") {
       try {
         const res = await axios.post("http://localhost:8000/messages/", {
           message,
         });
         simulateTypingResponse(res.data.response);
-        setUserMessage(message);
-        if (saveChatHistory){
-          localStorage.setItem(
-            "conversation",
-            JSON.stringify([
-              ...conversation,
-              { message: message, answer: res.data.response },
-            ])
-          );
-        }
+        const newItem = { message: message, answer: res.data.response };
+        setConversation([...conversation, newItem]);
+          if (isLoggedIn && saveChatHistory){
+            localStorage.setItem(
+              "conversation",
+              JSON.stringify([...conversation, newItem])
+            );
+          }
         setMessage("");
-
-        if ((userMessage, answer)) {
-          const newItem = { message:userMessage, answer:answer };
-          setConversation([...conversation, newItem]);
-        }
       } catch (error) {
-        console.log(error);
-        alert("Error sending message")
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.detail
+        ) {
+          alert(error.response.data.detail);
+        } else {
+          console.log(error);
+          alert("Error sending message. Please try again."); 
+        }
       }
+    } else {
+      alert("Please enter a message before sending."); 
     }
-  }
+  };
+
 
   const newChatClick = () => {
-    if (saveChatHistory) {
+    if (isLoggedIn && saveChatHistory) {
       setChatHistory([conversation, ...chatHistory]);
       localStorage.setItem(
         "chatHistory",
-        JSON.stringify([
-          ...chatHistory,
-          conversation,
-        ])
+        JSON.stringify([conversation, ...chatHistory])
       );
-      setConversation([]);
     }
+    setTyping(false);
+    setConversation([]);
     localStorage.removeItem("conversation");
-    // setConversation([]);
-  }
+  };
 
   useEffect(() => {
-    if (typing){
-      currentConversationItemRef.current.scrollIntoView({ behavior: "smooth" });
-    } else {
-      if (lastConversationItemRef.current) {
-        lastConversationItemRef.current.scrollIntoView({ behavior: "smooth" });
-      }
+    if (lastConversationItemRef.current) {
+      lastConversationItemRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [conversation, typing]); 
+  }, [conversation]); 
 
   useEffect(() => {
     const conversationFromLocalStorage = localStorage.getItem("conversation");
-    if (conversationFromLocalStorage) {
+    if (conversationFromLocalStorage && isLoggedIn) {
       setConversation(JSON.parse(conversationFromLocalStorage));
     }
     const chatHistoryFromLocalStorage = localStorage.getItem("chatHistory");
-    if (chatHistoryFromLocalStorage) {
+    if (chatHistoryFromLocalStorage && isLoggedIn) {
       setChatHistory(JSON.parse(chatHistoryFromLocalStorage));
     }
-  }, []);
+  }, [isLoggedIn]);
 
 
   return (
     <div className="chatbot">
       <div className="chat-history-cards">
         <div className="btn-container">
-          <CustomBtn txt="New Chat" bgColor="#cfcfcf" onClick={newChatClick}/>
+          <CustomBtn txt="New Chat" bgColor="#cfcfcf" onClick={newChatClick} />
         </div>
-        <div className="cards">
-          {
-            chatHistory.map((item, index) => (
-              <div className="card" key={index}>{item[0].message}</div>
-            ))
-          }
-        </div>
+        {isLoggedIn && (
+          <div className="cards">
+            {chatHistory.map((chatItem, chatIndex) => (
+              <div className="card" key={chatIndex}>
+                {chatItem.length > 0 && <p>{chatItem[0].message}</p>}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <div className="action">
         <div className="chatbot-header">
           <h2>ProAI Chatbot</h2>
-          {isLoggedIn && <h3 className="weclome-msg">{welcomeMsg}</h3>}
+          {isLoggedIn && (
+            <div className="user-name-check">
+              <h3 className="weclome-msg">{welcomeMsg}</h3>
+              <div className="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="saveChatCheckbox"
+                  name="saveChatCheckbox"
+                  checked={!saveChatHistory}
+                  onChange={toggleSaveChatHistory}
+                />
+                <label htmlFor="saveChatCheckbox">
+                  Don&apos;t save the chat
+                </label>
+              </div>
+            </div>
+          )}
         </div>
         <div className="chatbot-main">
           <div className="chat-conversation">
             <h2>How can I help you?</h2>
 
             {conversation.map((item, index) => (
-              <div className="conversation-item" 
-              key={index} 
-              ref={index === conversation.length ? lastConversationItemRef : null}>
+              <div className="conversation-item" key={index}>
                 <div className="question-container">
                   <span>you</span>
                   <p className="question">{item.message}</p>
                 </div>
                 <div className="answer-container">
                   <span>chatbot</span>
-                  <p className="answer">{item.answer}</p>
+                  {index === conversation.length - 1 && typing ? (
+                    <p
+                      className="answer"
+                      ref={
+                        index === conversation.length - 1
+                          ? lastConversationItemRef
+                          : null
+                      }
+                    >
+                      {answer}
+                    </p>
+                  ) : (
+                    <p
+                      className="answer"
+                      ref={
+                        index === conversation.length - 1
+                          ? lastConversationItemRef
+                          : null
+                      }
+                    >
+                      {item.answer}
+                    </p>
+                  )}
                 </div>
               </div>
             ))}
-
-            {answer && (
-              <div className="conversation-item" ref={currentConversationItemRef}>
-                <div className="question-container">
-                  <span>you</span>
-                  <p className="question">{userMessage}</p>
-                </div>
-                <div className="answer-container">
-                  <span>chatbot</span>
-                  <p className="answer">{answer}</p>
-                </div>
-              </div>
-            )}
           </div>
         </div>
         <div className="form-container">

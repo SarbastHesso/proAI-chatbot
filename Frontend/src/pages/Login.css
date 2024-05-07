@@ -23,6 +23,8 @@
                 margin-bottom: .5rem;
             }
             input {
+                border: none;
+                outline: none;
                 width: 100%;
                 padding: .5rem;
                 border-radius: .2rem;
@@ -31,9 +33,10 @@
             }
         }
         .error-message {
+            max-width: 450px;
             color: red;
         }
-        .separator {
+        /* .separator {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -42,7 +45,7 @@
                 width: 44%;
                 border-bottom: 2px solid #000000;
             }
-        }
+        } */
         .btn-cotainer {
             display: flex;
             justify-content: center;
