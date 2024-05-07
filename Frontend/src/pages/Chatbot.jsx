@@ -79,7 +79,8 @@ const Chatbot = () => {
 
 
    const newChatClick = () => {
-     if (isLoggedIn && saveChatHistory) {
+     if (isLoggedIn && saveChatHistory && conversation.length > 0) {
+      console.log(conversation);
        setChatHistory((prevChatHistory) => {
          const updatedHistory = [...prevChatHistory];
          if (selectedChatIndex !== null) {
