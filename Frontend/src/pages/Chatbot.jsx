@@ -18,6 +18,7 @@ const Chatbot = () => {
 
   const [saveChatHistory, setSaveChatHistory] = useState(true);
   const [chatHistory, setChatHistory] = useState([]);
+  const [selectedChatIndex, setSelectedChatIndex] = useState(null);
 
     const toggleSaveChatHistory = () => {
       setSaveChatHistory(!saveChatHistory);
@@ -77,17 +78,49 @@ const Chatbot = () => {
   };
 
 
-  const newChatClick = () => {
-    if (isLoggedIn && saveChatHistory) {
-      setChatHistory([conversation, ...chatHistory]);
-      localStorage.setItem(
-        "chatHistory",
-        JSON.stringify([conversation, ...chatHistory])
-      );
+   const newChatClick = () => {
+     if (isLoggedIn && saveChatHistory) {
+       setChatHistory((prevChatHistory) => {
+         const updatedHistory = [...prevChatHistory];
+         if (selectedChatIndex !== null) {
+           updatedHistory[selectedChatIndex] = conversation;
+         } else {
+           chatHistory.unshift(conversation);
+         }
+         localStorage.setItem("chatHistory", JSON.stringify(updatedHistory));
+         return updatedHistory;
+       });
+     }
+     setTyping(false);
+     setConversation([]);
+     setSelectedChatIndex(null);
+     localStorage.removeItem("conversation");
+   };
+
+  const openChatCard = (index) => {
+    if (selectedChatIndex !== null) {
+      // Save the current conversation state to the chatHistory before opening a new card
+      setChatHistory((prevChatHistory) => {
+        const updatedHistory = [...prevChatHistory];
+        updatedHistory[selectedChatIndex] = conversation;
+        localStorage.setItem("chatHistory", JSON.stringify(updatedHistory));
+        return updatedHistory;
+      });
     }
-    setTyping(false);
-    setConversation([]);
-    localStorage.removeItem("conversation");
+    setConversation(chatHistory[index]);
+    setSelectedChatIndex(index);
+  }
+
+  const deleteChatCard = (index) => {
+    if (selectedChatIndex === index) {
+      setConversation([]);
+      setSelectedChatIndex(null);
+    }
+    setChatHistory((prevChatHistory) => {
+      const updatedHistory = prevChatHistory.filter((_, i) => i !== index);
+      localStorage.setItem("chatHistory", JSON.stringify(updatedHistory));
+      return updatedHistory;
+    });
   };
 
   useEffect(() => {
@@ -118,7 +151,12 @@ const Chatbot = () => {
           <div className="cards">
             {chatHistory.map((chatItem, chatIndex) => (
               <div className="card" key={chatIndex}>
-                {chatItem.length > 0 && <p>{chatItem[0].message}</p>}
+                {chatItem.length > 0 && (
+                  <p onClick={() => openChatCard(chatIndex)}>
+                    {chatItem[0].message}
+                  </p>
+                )}
+                <button onClick={() => deleteChatCard(chatIndex)}>del</button>
               </div>
             ))}
           </div>
