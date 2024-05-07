@@ -1,4 +1,5 @@
 import { useContext, useState, useRef, useEffect } from "react";
+import logo from "../assets/images/logo.png";
 import axios from "axios";
 import { Context } from "../Context";
 import CustomBtn from "../components/CustomBtn";
@@ -197,7 +198,9 @@ const Chatbot = () => {
                   <p className="question">{item.message}</p>
                 </div>
                 <div className="answer-container">
-                  <span>chatbot</span>
+                  <div className="logo-wrapper">
+                    <img src={logo} alt="proAI-logo" />
+                  </div>
                   {index === conversation.length - 1 && typing ? (
                     <p
                       className="answer"

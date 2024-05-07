@@ -91,7 +91,7 @@
                     flex-direction: column;
                     gap: .5rem;
                     margin-bottom: 1rem;
-                    padding-bottom: .5rem;
+                    padding-bottom: 1rem;
                     border-bottom: 2px solid #ffffff;
                     .question-container, .answer-container {
                         display: flex;
@@ -99,6 +99,17 @@
                         span {
                             min-width: 50px;
                             font-weight: bold;
+                            text-align: center;
+                        }
+                    }
+                    .answer-container {
+                        .logo-wrapper {
+                            min-width: 50px;
+                            width: 2rem;
+                            height: 2rem;
+                            img {
+                                width: 100%;
+                            }
                         }
                     }
                 }
