@@ -157,7 +157,9 @@ const Chatbot = () => {
                     {chatItem[0].message}
                   </p>
                 )}
-                <button onClick={() => deleteChatCard(chatIndex)}>del</button>
+                <button onClick={() => deleteChatCard(chatIndex)}>
+                  <i className="fa-regular fa-trash-can"></i>
+                </button>
               </div>
             ))}
           </div>

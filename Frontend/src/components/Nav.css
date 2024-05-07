@@ -11,5 +11,17 @@
     .contact, .legal {
         display: flex;
         flex-wrap: wrap;
+        a {
+            display: flex;
+            align-items: center;
+            gap: .3rem;
+            .logo-wrapper {
+                width: 2rem;
+                height: 2rem;
+                img {
+                    width: 100%;
+                }
+            }
+        }
     }
 }
