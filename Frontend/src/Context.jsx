@@ -110,6 +110,7 @@ const ContextProvider = ({ children }) => {
     setIsLoggedIn(false);
     setWelcomeMsg(null);
     console.log("Waiting for implementing in backend");
+    navigate("/")
   };
 
 

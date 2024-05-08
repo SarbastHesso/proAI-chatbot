@@ -25,6 +25,7 @@
                 align-items: center;
                 background-color: #ededed;
                 p {
+                    flex: 1;
                     padding: .5rem 1rem;
                     cursor: pointer;
                 }
